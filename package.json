@@ -1,0 +1,41 @@
+{
+  "name": "war",
+  "version": "0.1.0",
+  "description": "lib to structure browser requests: web app request",
+  "main": "./src/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha",
+    "livetest": "webpack-dev-server --progress --display-error-details --config ./webpack.livetest.config.js",
+    "build": "webpack --config ./webpack.production.js",
+    "dev": "...",
+    "start": "webpack --progress --colors --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/j0t3x/war.git"
+  },
+  "author": [
+    {
+      "name": "t3x",
+      "email": "tex@munera.io",
+      "url": "https://t3x.me"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/j0t3x/war/issues"
+  },
+  "homepage": "https://github.com/j0t3x/war#readme",
+  "devDependencies": {
+    "eslint": "^3.13.1",
+    "eslint-loader": "^1.6.1",
+    "esprima": "^3.1.3",
+    "mocha": "^3.2.0",
+    "webpack": "^1.14.0",
+    "webpack-dev-server": "^1.16.2",
+    "html-webpack-plugin": "^2.22.0"
+  }
+}
