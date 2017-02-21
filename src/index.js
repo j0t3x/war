@@ -41,8 +41,6 @@ war.prototype.setGlobalHeaders = function( h ){
 war.prototype.send = function( connID, method, data ){
 
   if( !data ) data = null;
-
-
   this.connections[ connID ].startAndSend( method, data, this.globalHeaders );
 
 };

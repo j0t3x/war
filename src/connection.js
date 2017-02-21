@@ -13,6 +13,7 @@ var connection = function( url, id ){
   this.tempHeaders =  {};
   this.xhr =  this.checkXHR();
   this.data = new FormData();
+  this.lastTimeOfUse = 0;
 
   this.setListeners();
 
@@ -22,8 +23,12 @@ connection.prototype.startAndSend = function( method, data, headers ){
 
   this.formatAsFormData( data );
   this.xhr.open( method, this.url, true );//always async
-  this.addTempHeader( headers );
-  this.addTempHeader( this.tempHeaders );
+  this._addTempHeader( headers );
+  this._addTempHeader( this.tempHeaders );
+
+  //timestamp of last use
+  this.setNowLastTimeOfUse();
+
   this.xhr.send( this.data );
 
 };
@@ -37,6 +42,14 @@ connection.prototype.formatAsFormData = function( data ){
 
     }
   }
+
+};
+
+
+connection.prototype.setNowLastTimeOfUse = function(){
+
+  var date = Date.now();
+  this.lastTimeOfUse = date;
 
 };
 
@@ -81,10 +94,27 @@ connection.prototype.addTempHeader = function( h ){
     }
   }
 
+  //console.log( this.tempHeaders )
   return this;
 
 };
 
+connection.prototype._addTempHeader = function( h ){
+
+  if( !h )
+    throw 'grow a pair... name, value needed to set a temporal header for this onnection';
+
+  for (var header in h) {
+    if (h.hasOwnProperty(header)) {
+      //we save just because
+      this.xhr.setRequestHeader( header, h[ header ] );
+    }
+  }
+
+  //console.log( this.tempHeaders )
+  return this;
+
+};
 
 /**
  * This method is yet to be defined, we know that you can send
@@ -137,18 +167,17 @@ connection.prototype.readystatechange = function( context ){
 
     if (this.xhr.readyState === this.DONE && this.xhr.status === 200) {
        // Action to be performed when the document is read;
-       this._getdata( this.xhr.responseText );
+       this._response( this.xhr.responseText );
     }else{
       //not yet rdy
+      //console.log( this.xhr.readyState, this.xhr.status )
     }
 };
 
-connection.prototype._getdata = function( data ){
-  this.getdata( data );
+connection.prototype._response = function( data ){
+  this.response( data );
 };
-connection.prototype.getdata = function( data ){
-  console.log( data );
-};
+connection.prototype.response = function( data ){};
 
 connection.prototype._progress = function( e ){
   var percentComplete;
