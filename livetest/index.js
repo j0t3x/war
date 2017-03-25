@@ -1,5 +1,4 @@
 var war = require('../bin/war.js');
-war = new war();
 
 var headers = {
   'Accept': 'text/plain, text/html'

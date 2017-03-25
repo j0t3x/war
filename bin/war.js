@@ -54,6 +54,15 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var war = __webpack_require__(1);
+	war = new war();
+	module.exports = war;
+
+
+/***/ },
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
 	// onloadstart	loadstart
 	// onprogress	progress
 	// onabort	abort
@@ -62,9 +71,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	// ontimeout	timeout
 	// onloadend	loadend
 	
-	var connection = __webpack_require__(1);
+	var connection = __webpack_require__(2);
 	
-	var war = function(){
+	var connectionManager = function(){
 	
 	  this.globalHeaders = {};
 	  this.methods = [ 'GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD' ];
@@ -80,7 +89,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	};
 	
-	war.prototype.setGlobalHeaders = function( h ){
+	connectionManager.prototype.setGlobalHeaders = function( h ){
 	
 	  if( !h )
 	    throw 'grow a pair... name, value needed to set a temporal header for this connection';
@@ -94,7 +103,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	};
 	
-	war.prototype.send = function( connID, method, data ){
+	connectionManager.prototype.send = function( connID, method, data ){
 	
 	  if( !data ) data = null;
 	  this.connections[ connID ].startAndSend( method, data, this.globalHeaders );
@@ -108,7 +117,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {URL} input the url you want to connect to
 	 * @returns {string} that is the ID of your connection.
 	 */
-	war.prototype.confConnection = function( url ){
+	connectionManager.prototype.confConnection = function( url ){
 	
 	  var id = this.generateConnectionID();
 	  this.connections[ id ] = new connection( url, id );
@@ -116,7 +125,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	};
 	
-	war.prototype.generateConnectionID = function(){
+	connectionManager.prototype.generateConnectionID = function(){
 	
 	  function s4() {
 	    return Math.floor((1 + Math.random()) * 0x10000)
@@ -128,11 +137,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	};
 	
-	module.exports = war;
+	module.exports = connectionManager;
 
 
 /***/ },
-/* 1 */
+/* 2 */
 /***/ function(module, exports) {
 
 	var connection = function( url, id ){
